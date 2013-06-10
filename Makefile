@@ -1,13 +1,14 @@
-OBJ=main.o
+OBJ=main.o \
+	event.o
 EXEC=wwm
 
 all: $(EXEC)
 
 $(EXEC): $(OBJ)
-	gcc -lxcb -o $(EXEC) $^
+	gcc -Wall -lxcb-util -lxcb -o $(EXEC) $^
 
 %.o: %.c
-	gcc -c $<
+	gcc -Wall -c $<
 
 clean:
 	rm -rf *.o
