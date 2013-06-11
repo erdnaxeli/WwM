@@ -19,3 +19,6 @@
 
 # Vim
 *.swp
+
+# Exec
+wwm

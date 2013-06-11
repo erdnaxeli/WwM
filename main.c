@@ -22,8 +22,15 @@ int main ()
     xcb_screen_t *screen = xcb_setup_roots_iterator(xcb_get_setup (c)).data;
     xcb_drawable_t root = screen->root;
 
-    subscribe_events(c, root);
+    xcb_window_t w = xcb_generate_id (c);
+    const static uint32_t value[] = {XCB_EVENT_MASK_KEY_PRESS};
+    xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
+    xcb_map_window (c, w);
 
+    xcb_flush (c);
+    subscribe_events(c, w);
+    xcb_flush (c);
+    event_handler(c, w);
     /*
     int *shit = &screen->white_pixel;
     xcb_void_cookie_t cookie = xcb_change_window_attributes (c,
@@ -49,8 +56,5 @@ int main ()
     xcb_map_window (c, root);
     */
 
-    xcb_flush (c);
-
-    pause();
     return 0;
 }
