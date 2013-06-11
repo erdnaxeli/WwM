@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 
 #include "event.h"
 
@@ -18,17 +19,29 @@ int main ()
         fprintf(stderr, "Cannot open display\n");
         exit(1);
     }
-
+    
     xcb_screen_t *screen = xcb_setup_roots_iterator(xcb_get_setup (c)).data;
     xcb_drawable_t root = screen->root;
 
+    /* This return an error if an other window manager is running (don't as me
+     * why). */
+    xcb_change_window_attributes(c, root, XCB_CW_EVENT_MASK,
+            (const uint32_t []){ XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT });
+    xcb_aux_sync(c);
+
+    /* If there is any event, it must be an error (this is too soon for other
+     * event). */
+    if (xcb_poll_for_event(c) != NULL) {
+        printf("Another window manager is running");
+        exit(EXIT_FAILURE);
+    }
+
     xcb_window_t w = xcb_generate_id (c);
-    const static uint32_t value[] = {XCB_EVENT_MASK_KEY_PRESS};
-    xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
-    xcb_map_window (c, w);
+    //xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
+    //xcb_map_window (c, w);
 
     xcb_flush (c);
-    subscribe_events(c, w);
+    subscribe_events(c, root);
     xcb_flush (c);
     event_handler(c, w);
     /*
