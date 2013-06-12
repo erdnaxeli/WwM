@@ -1,6 +1,7 @@
 OBJ=main.o \
 	event.o \
-	logger.o
+	logger.o \
+	tools.o
 EXEC=wwm
 
 all: $(EXEC)

@@ -10,14 +10,17 @@
 #include <xcb/xcb_aux.h>
 
 #include "event.h"
+#include "logger.h"
+#include "tools.h"
 
 int main ()
 {
+    set_logger_level(INFO);
     xcb_connection_t *c = xcb_connect(NULL, NULL);
 
     if (c == NULL) {
-        fprintf(stderr, "Cannot open display\n");
-        exit(1);
+        logger(CRITICAL, "Cannot open display\n");
+        exit(EXIT_FAILURE);
     }
     
     xcb_screen_t *screen = xcb_setup_roots_iterator(xcb_get_setup (c)).data;
@@ -32,8 +35,9 @@ int main ()
     /* If there is any event, it must be an error (this is too soon for other
      * event). */
     if (xcb_poll_for_event(c) != NULL) {
-        printf("Another window manager is running");
-        exit(EXIT_FAILURE);
+        logger(ERROR, "Another window manager is running");
+        /* TODO: uncomment this before merge it to stable
+         * exit(EXIT_FAILURE); */
     }
 
     xcb_window_t w = xcb_generate_id (c);
@@ -43,6 +47,7 @@ int main ()
     xcb_flush (c);
     subscribe_events(c, root);
     xcb_flush (c);
+    exec_cmd("urxvt");
     event_handler(c, w);
     /*
     int *shit = &screen->white_pixel;
