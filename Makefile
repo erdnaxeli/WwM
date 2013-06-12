@@ -1,14 +1,18 @@
 OBJ=main.o \
-	event.o
+	event.o \
+	logger.o
 EXEC=wwm
 
 all: $(EXEC)
+
+debug:
+	make DEBUG='-g'
 
 $(EXEC): $(OBJ)
 	gcc -Wall -lxcb-util -lxcb -o $(EXEC) $^
 
 %.o: %.c
-	gcc -Wall -c $<
+	gcc -Wall $(DEBUG) -c $<
 
 clean:
 	rm -rf *.o
