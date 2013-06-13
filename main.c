@@ -12,6 +12,7 @@
 #include "event.h"
 #include "logger.h"
 #include "tools.h"
+#include "kdtree.h"
 
 int main ()
 {
@@ -44,11 +45,13 @@ int main ()
     //xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
     //xcb_map_window (c, w);
 
-    xcb_flush (c);
+    xcb_flush(c);
     subscribe_events(c, root);
-    xcb_flush (c);
+    xcb_flush(c);
     exec_cmd("urxvt");
-    event_handler(c, w);
+    event_handler(c, screen, w);
+
+    xcb_disconnect(c);
     /*
     int *shit = &screen->white_pixel;
     xcb_void_cookie_t cookie = xcb_change_window_attributes (c,

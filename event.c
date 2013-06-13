@@ -19,7 +19,7 @@ void subscribe_events(xcb_connection_t *c, xcb_drawable_t root)
     xcb_change_window_attributes(c, root, XCB_CW_EVENT_MASK, events);
 }
 
-void event_handler(xcb_connection_t *c, xcb_drawable_t root)
+void event_handler(xcb_connection_t *c, xcb_screen_t *screen, xcb_drawable_t root)
 {
     xcb_generic_event_t *ev;
 
@@ -30,8 +30,12 @@ void event_handler(xcb_connection_t *c, xcb_drawable_t root)
                 xcb_map_request_event_t *rev = (xcb_map_request_event_t *)ev;
                 logger(INFO, "XCB_MAP_REQUEST : %d\n", rev->window);
                 xcb_configure_window(c, rev->window,
-                        XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y,
-                        (const uint32_t []){ 500, 300 });
+                        XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y   |
+                        XCB_CONFIG_WINDOW_BORDER_WIDTH,
+                        (const uint32_t []){ 0, 300, 1 });
+                xcb_change_window_attributes(c, rev->window,
+                        XCB_CW_BORDER_PIXEL,
+                        (const uint32_t []){ screen->white_pixel });
 
                 xcb_map_window(c, rev->window);
                 xcb_flush(c);
