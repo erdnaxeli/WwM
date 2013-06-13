@@ -12,8 +12,15 @@ int tag_init()
 {
     tags = malloc(sizeof(struct tlist));
 
-    if (tags == NULL)
+    if (tags == NULL) {
         return 0;
-    else
+    } else {
+        tags->state = malloc(sizeof(struct splite_state));
+        tags->state->v = NULL;
+        tags->state->right = NULL;
+        tags->state->left = NULL;
+        tags->wins = NULL;
+        tags->next = NULL;
         return 1;
+    }
 }
