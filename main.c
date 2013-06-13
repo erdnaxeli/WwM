@@ -12,7 +12,6 @@
 #include "event.h"
 #include "logger.h"
 #include "tools.h"
-#include "kdtree.h"
 
 int main ()
 {
