@@ -1,0 +1,12 @@
+get_lnode:
+ - return a path to find the window
+
+get position and dimension:
+ - need a path to go through the tree
+
+misc:
+ - set dimensions to new windows
+ - change borders to previous focused window
+ - set borders to new focused window
+ - get keys
+ - split screen
