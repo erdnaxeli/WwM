@@ -2,8 +2,8 @@
 #define LOGGER_H
 
 enum level {
-    INFO,
     DEBUG,
+    INFO,
     WARN,
     ERROR,
     CRITICAL
