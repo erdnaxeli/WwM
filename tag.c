@@ -47,8 +47,12 @@ void add_win_to_tag(xcb_window_t *w)
     if (tag->wfocused == NULL) {
         logger(INFO, "add_win_to_tag: this is the first window");
         tag->state->v = w;
-        set_win_geometry(0, 0, global.screen->width_in_pixels - 2,
-                global.screen->height_in_pixels - 2, *w);
+        set_win_geometry(global.margin_l, global.margin_t,
+                global.screen->width_in_pixels
+                    - (2 + global.margin_l + global.margin_r),
+                global.screen->height_in_pixels
+                    - (2 + global.margin_t + global.margin_b),
+                *w);
     } else {
         // xcb is asynchronous, so we take advantage of it
         logger(DEBUG, "add_win_to_tag: asking geometry information for %d",

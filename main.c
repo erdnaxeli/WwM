@@ -42,10 +42,6 @@ int main ()
          * exit(EXIT_FAILURE); */
     }
 
-    //xcb_window_t w = xcb_generate_id (global.c);
-    //xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
-    //xcb_map_window (c, w);
-
     xcb_flush(global.c);
     subscribe_events();
 
@@ -55,34 +51,16 @@ int main ()
     }
 
     xcb_flush(global.c);
+
+    // TODO: read a configuration and set it
+    global.margin_t = 15;
+    global.margin_r = 0;
+    global.margin_b = 0;
+    global.margin_l = 0;
+
     exec_cmd("urxvt");
     event_handler();
 
     xcb_disconnect(global.c);
-    /*
-    int *shit = &screen->white_pixel;
-    xcb_void_cookie_t cookie = xcb_change_window_attributes (c,
-                                                    root,
-                                                    XCB_CW_BACK_PIXEL,
-                                                    shit);
-
-    xcb_gcontext_t foreground = xcb_generate_id (c);
-    uint32_t mask = XCB_GC_BACKGROUND;
-    uint32_t values[1] = {screen->white_pixel};
-    //xcb_create_gc (c, foreground, root, mask, values);
-
-    //mask = XCB_CW_BACK_PIXEL;
-    //values[0] = screen->white_pixel;
-
-    xcb_window_t w = xcb_generate_id (c);
-    //xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
-
-    mask = XCB_GC_BACKGROUND;
-    values[0] = screen->black_pixel;
-    //xcb_create_gc (c, foreground, w, mask, values);
-
-    xcb_map_window (c, root);
-    */
-
     return 0;
 }
