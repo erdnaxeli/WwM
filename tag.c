@@ -51,7 +51,9 @@ void add_win_to_tag(xcb_window_t *w)
                 global.screen->height_in_pixels - 2, *w);
     } else {
         // xcb is asynchronous, so we take advantage of it
-        xcb_get_geometry_cookie_t geom_cookie = xcb_get_geometry(global.c, *w);
+        logger(DEBUG, "add_win_to_tag: asking geometry information for %d",
+                *tag->wfocused);
+        xcb_get_geometry_cookie_t geom_cookie = xcb_get_geometry(global.c, *tag->wfocused);
 
         struct split_state *node = get_lnode(tag->state, tag->wfocused);
         logger(DEBUG, "add_win_to_tag: node get");
