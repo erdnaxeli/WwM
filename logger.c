@@ -6,7 +6,7 @@
 
 #include "logger.h"
 
-static enum level level = ERROR;
+static enum level level = INFO;
 
 void set_logger_level(enum level lvl)
 {
@@ -22,8 +22,9 @@ char *lvl_to_str(enum level lvl)
 
     switch (lvl) {
 #define CASE(lvl) case lvl: sprintf(buffer, #lvl); break
-        CASE(INFO);
+        CASE(TRACE);
         CASE(DEBUG);
+        CASE(INFO);
         CASE(WARN);
         CASE(ERROR);
         CASE(CRITICAL);
