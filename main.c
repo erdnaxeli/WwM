@@ -18,7 +18,9 @@ struct conf global;
 
 int main ()
 {
-    set_logger_level(DEBUG);
+    set_logger_level(TRACE);
+
+    logger(INFO, "Connecting to X");
     global.c = xcb_connect(NULL, NULL);
 
     if (global.c == NULL) {
@@ -37,7 +39,7 @@ int main ()
     /* If there is any event, it must be an error (this is too soon for other
      * event). */
     if (xcb_poll_for_event(global.c) != NULL) {
-        logger(ERROR, "Another window manager is running");
+        logger(CRITICAL, "Another window manager is running");
         /* TODO: uncomment this before merge it to stable
          * exit(EXIT_FAILURE); */
     }
@@ -52,6 +54,7 @@ int main ()
 
     xcb_flush(global.c);
 
+    logger(INFO, "Reading configuration");
     // TODO: read a configuration and set it
     global.margin_t = 15;
     global.margin_r = 0;
@@ -59,8 +62,13 @@ int main ()
     global.margin_l = 0;
 
     exec_cmd("urxvt");
-    event_handler();
 
+    logger(INFO, "Starting event loop");
+    event_loop();
+
+    logger(INFO, "Disconnecting from X");
     xcb_disconnect(global.c);
+
+    logger(INFO, "Bye");
     return 0;
 }

@@ -2,6 +2,6 @@
 #define EVENT_H
 
 void subscribe_events();
-void event_handler();
+void event_loop();
 
 #endif //EVENT_H
