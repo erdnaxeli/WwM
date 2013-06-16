@@ -1,7 +1,10 @@
 #include <stdlib.h>
 
+#include "global.h"
 #include "window.h"
 #include "logger.h"
+
+extern struct conf global;
 
 // @return the leaf node containing w in tree
 struct split_state *get_lnode(struct split_state *tree, xcb_window_t *w)
@@ -64,4 +67,14 @@ struct wlist *add_win_to_list(struct wlist *list, xcb_window_t *w)
     }
 
     return save;
+}
+
+void set_win_geometry(int16_t x, int16_t y, uint16_t width, uint16_t height,
+        xcb_drawable_t w)
+{
+    logger(DEBUG, "set_win_geometry: position = (%d, %d), size = (%d, %d), window = %d", x, y, width, height, w);
+    xcb_configure_window(global.c, w,
+            XCB_CONFIG_WINDOW_X     | XCB_CONFIG_WINDOW_Y       |
+            XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
+            (const uint32_t []){ x, y, width, height });
 }

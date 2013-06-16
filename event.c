@@ -17,7 +17,8 @@ void subscribe_events()
         XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY
     };*/
 
-    xcb_change_window_attributes(global.c, global.screen->root, XCB_CW_EVENT_MASK, events);
+    xcb_change_window_attributes(global.c, global.screen->root,
+            XCB_CW_EVENT_MASK, events);
 }
 
 void event_handler()
@@ -30,17 +31,7 @@ void event_handler()
             {
                 xcb_map_request_event_t *rev = (xcb_map_request_event_t *)ev;
                 logger(INFO, "XCB_MAP_REQUEST : %d", rev->window);
-                xcb_configure_window(global.c, rev->window,
-                        XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y   |
-                        XCB_CONFIG_WINDOW_BORDER_WIDTH,
-                        (const uint32_t []){ 0, 300, 1 });
-                xcb_change_window_attributes(global.c, rev->window,
-                        XCB_CW_BORDER_PIXEL,
-                        (const uint32_t []){ global.screen->white_pixel });
-
-                xcb_map_window(global.c, rev->window);
-                xcb_flush(global.c);
-
+                
                 xcb_window_t *w = malloc(sizeof(xcb_window_t));
                 *w = rev->window;
                 add_win_to_tag(w);
@@ -63,6 +54,7 @@ void event_handler()
                 break;
         }
 
+        xcb_flush(global.c);
         free (ev);
     }
 }

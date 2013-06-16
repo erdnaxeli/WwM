@@ -35,5 +35,7 @@ struct wlist {
 
 struct split_state *get_lnode(struct split_state *tree, xcb_window_t *w);
 struct wlist *add_win_to_list(struct wlist *list, xcb_window_t *w);
+void set_win_geometry(int16_t x, int16_t y, uint16_t width, uint16_t height,
+        xcb_drawable_t w);
 
 #endif // WINDOW_H
