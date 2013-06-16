@@ -17,7 +17,7 @@ int tag_init()
     if (tag == NULL) {
         return 0;
     } else {
-        tag->state = malloc(sizeof(struct splite_state));
+        tag->state = malloc(sizeof(struct split_state));
         tag->state->v = NULL;
         tag->state->right = NULL;
         tag->state->left = NULL;
@@ -28,7 +28,7 @@ int tag_init()
     }
 }
 
-/* Add a window to the current tag (first in teh list), in the frame which
+/* Add a window to the current tag (first in the list), in the frame which
  * contain the focused window. */
 void add_win_to_tag(xcb_window_t *w)
 {
@@ -38,7 +38,7 @@ void add_win_to_tag(xcb_window_t *w)
         logger(INFO, "add_win_to_tag: this is the first window");
         tag->state->v = w;
     } else {
-        struct splite_state *node = get_lnode(tag->state, tag->wfocused);
+        struct split_state *node = get_lnode(tag->state, tag->wfocused);
         logger(DEBUG, "add_win_to_tag: node get");
 
         if (node != NULL) {
@@ -51,4 +51,6 @@ void add_win_to_tag(xcb_window_t *w)
         logger(INFO, "add_win_to_tag");
         node->v = w;
     }
+
+    tag->wfocused = w;
 }

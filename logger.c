@@ -56,7 +56,6 @@ void logger(enum level lvl, char* format, ...)
 
     if (buffer != NULL) {
         sprintf(buffer, "%s [%s]: %s\n", time_str, lvl_str, format);
-
         vprintf(buffer, args);
     }
 

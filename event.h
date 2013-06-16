@@ -1,7 +1,7 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-void subscribe_events(xcb_connection_t *c, xcb_drawable_t root);
-void event_handler(xcb_connection_t *c, xcb_screen_t *scren, xcb_drawable_t root);
+void subscribe_events();
+void event_handler();
 
 #endif //EVENT_H

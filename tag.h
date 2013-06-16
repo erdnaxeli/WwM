@@ -4,7 +4,7 @@
 #include "window.h"
 
 /* A list of tags :
- *  - state : a splite_state tree, wich contain the splits of the screen and
+ *  - state : a split_state tree, wich contain the splits of the screen and
  *  the mapped windows
  *  - wfocused : focused window
  *  - wins : list of *not* mapped windows
@@ -12,7 +12,7 @@
 struct tlist;
 
 struct tlist {
-    struct splite_state *state;
+    struct split_state *state;
     xcb_window_t *wfocused;
     struct wlist *wins;
     struct tlist *next;

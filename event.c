@@ -1,11 +1,12 @@
-#include <xcb/xcb.h>
-#include <xcb/xcb_atom.h>
 #include <stdlib.h>
-#include <stdio.h>
 
+#include "global.h"
 #include "logger.h"
+#include "tag.h"
 
-void subscribe_events(xcb_connection_t *c, xcb_drawable_t root)
+extern struct conf global;
+
+void subscribe_events()
 {
     const static uint32_t events[] = {
         XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT
@@ -16,29 +17,33 @@ void subscribe_events(xcb_connection_t *c, xcb_drawable_t root)
         XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY
     };*/
 
-    xcb_change_window_attributes(c, root, XCB_CW_EVENT_MASK, events);
+    xcb_change_window_attributes(global.c, global.screen->root, XCB_CW_EVENT_MASK, events);
 }
 
-void event_handler(xcb_connection_t *c, xcb_screen_t *screen, xcb_drawable_t root)
+void event_handler()
 {
     xcb_generic_event_t *ev;
 
-    while ((ev = xcb_wait_for_event (c))) {
+    while ((ev = xcb_wait_for_event (global.c))) {
         switch (ev->response_type & ~0x80) {
             case XCB_MAP_REQUEST:
             {
                 xcb_map_request_event_t *rev = (xcb_map_request_event_t *)ev;
-                logger(INFO, "XCB_MAP_REQUEST : %d\n", rev->window);
-                xcb_configure_window(c, rev->window,
+                logger(INFO, "XCB_MAP_REQUEST : %d", rev->window);
+                xcb_configure_window(global.c, rev->window,
                         XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y   |
                         XCB_CONFIG_WINDOW_BORDER_WIDTH,
                         (const uint32_t []){ 0, 300, 1 });
-                xcb_change_window_attributes(c, rev->window,
+                xcb_change_window_attributes(global.c, rev->window,
                         XCB_CW_BORDER_PIXEL,
-                        (const uint32_t []){ screen->white_pixel });
+                        (const uint32_t []){ global.screen->white_pixel });
 
-                xcb_map_window(c, rev->window);
-                xcb_flush(c);
+                xcb_map_window(global.c, rev->window);
+                xcb_flush(global.c);
+
+                xcb_window_t *w = malloc(sizeof(xcb_window_t));
+                *w = rev->window;
+                add_win_to_tag(w);
                 break;
             }
             case XCB_CREATE_NOTIFY:

@@ -16,13 +16,13 @@ enum direction {
  * of the split, and has of course no sens in a leaf node.
  * We know if we are in an inner node if one of the children (right or left) is
  * not null. */
-struct splite_state;
+struct split_state;
 
-struct splite_state {
+struct split_state {
     void *v;
     enum direction d;
-    struct splite_state *right;
-    struct splite_state *left;
+    struct split_state *right;
+    struct split_state *left;
 };
 
 // A list of xcb_window_t
@@ -33,7 +33,7 @@ struct wlist {
     struct wlist *next;
 };
 
-struct splite_state *get_lnode(struct splite_state *tree, xcb_window_t *w);
+struct split_state *get_lnode(struct split_state *tree, xcb_window_t *w);
 struct wlist *add_win_to_list(struct wlist *list, xcb_window_t *w);
 
 #endif // WINDOW_H

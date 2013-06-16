@@ -4,9 +4,9 @@
 #include "logger.h"
 
 // @return the leaf node containing w in tree
-struct splite_state *get_lnode(struct splite_state *tree, xcb_window_t *w)
+struct split_state *get_lnode(struct split_state *tree, xcb_window_t *w)
 {
-    struct splite_state *tmp;
+    struct split_state *tmp;
     logger(DEBUG, "get_lnode: searching for %d", *w);
 
     if (tree->right == NULL) { // tree->left == NULL too
@@ -46,6 +46,7 @@ struct splite_state *get_lnode(struct splite_state *tree, xcb_window_t *w)
  * @return a pointer to this list */
 struct wlist *add_win_to_list(struct wlist *list, xcb_window_t *w)
 {
+    logger(DEBUG, "add_win_to_list: entering");
     struct wlist *save = list;
 
     if (list == NULL) {
