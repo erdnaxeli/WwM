@@ -4,11 +4,13 @@
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_atom.h>
+#include <xcb/xcb_keysyms.h>
 
 struct conf {
-    xcb_connection_t *c;
-    xcb_screen_t *screen;
-    xcb_drawable_t root;
+    xcb_connection_t *c; // connection
+    xcb_screen_t *screen; // screen
+    xcb_drawable_t root; // root window
+    xcb_key_symbols_t *keysyms; // key symbol table
 
     int16_t margin_t; // top
     int16_t margin_r; // right

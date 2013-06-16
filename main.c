@@ -54,6 +54,8 @@ int main ()
 
     xcb_flush(global.c);
 
+    global.keysyms = xcb_key_symbols_alloc(global.c);
+
     logger(INFO, "Reading configuration");
     // TODO: read a configuration and set it
     global.margin_t = 15;

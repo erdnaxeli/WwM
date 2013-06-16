@@ -78,3 +78,17 @@ void set_win_geometry(int16_t x, int16_t y, uint16_t width, uint16_t height,
             XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
             (uint32_t []){ x, y, width, height });
 }
+
+int wlist_lenght(struct wlist *list)
+{
+    logger(TRACE, "wlist_lenght");
+    int i = 0;
+
+    while (list != NULL) {
+        list = list->next;
+        i++;
+    }
+
+    logger(TRACE, "wlist_lenght: %d", i);
+    return i;
+}

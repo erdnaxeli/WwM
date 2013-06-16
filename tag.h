@@ -20,5 +20,6 @@ struct tlist {
 
 int tag_init();
 void add_win_to_tag(xcb_window_t *w);
+void split_frame(enum direction d);
 
 #endif // TAG_H

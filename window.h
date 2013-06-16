@@ -21,6 +21,7 @@ struct split_state;
 struct split_state {
     void *v;
     enum direction d;
+    struct split_state *parent;
     struct split_state *right;
     struct split_state *left;
 };
@@ -37,5 +38,6 @@ struct split_state *get_lnode(struct split_state *tree, xcb_window_t *w);
 struct wlist *add_win_to_list(struct wlist *list, xcb_window_t *w);
 void set_win_geometry(int16_t x, int16_t y, uint16_t width, uint16_t height,
         xcb_drawable_t w);
+int wlist_lenght(struct wlist *list);
 
 #endif // WINDOW_H

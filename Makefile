@@ -12,7 +12,7 @@ debug:
 	make DEBUG='-g'
 
 $(EXEC): $(OBJ)
-	gcc -Wall -lxcb-util -lxcb -o $(EXEC) $^
+	gcc -Wall -lxcb-keysyms -lxcb-util -lxcb -o $(EXEC) $^
 
 %.o: %.c
 	gcc -Wall $(DEBUG) -c $<
