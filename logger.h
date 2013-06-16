@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 enum level {
+    TRACE,
     DEBUG,
     INFO,
     WARN,
