@@ -31,7 +31,7 @@ int main ()
     /* This return an error if an other window manager is running (don't as me
      * why). */
     xcb_change_window_attributes(global.c, global.screen->root, XCB_CW_EVENT_MASK,
-            (const uint32_t []){ XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT });
+            (uint32_t []){ XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT });
     xcb_aux_sync(global.c);
 
     /* If there is any event, it must be an error (this is too soon for other
@@ -42,7 +42,7 @@ int main ()
          * exit(EXIT_FAILURE); */
     }
 
-    xcb_window_t w = xcb_generate_id (global.c);
+    //xcb_window_t w = xcb_generate_id (global.c);
     //xcb_create_window (c, screen->root_depth, w, screen->root, 10, 10, 250, 150, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
     //xcb_map_window (c, w);
 

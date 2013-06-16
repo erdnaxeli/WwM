@@ -76,5 +76,5 @@ void set_win_geometry(int16_t x, int16_t y, uint16_t width, uint16_t height,
     xcb_configure_window(global.c, w,
             XCB_CONFIG_WINDOW_X     | XCB_CONFIG_WINDOW_Y       |
             XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
-            (const uint32_t []){ x, y, width, height });
+            (uint32_t []){ x, y, width, height });
 }

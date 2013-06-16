@@ -39,10 +39,10 @@ void add_win_to_tag(xcb_window_t *w)
 
     // set the border color and width
     xcb_change_window_attributes(global.c, *w, XCB_CW_BORDER_PIXEL,
-            (const uint32_t []){ global.screen->white_pixel });
+            (uint32_t []){ global.screen->white_pixel });
     xcb_configure_window(global.c, *w,
             XCB_CONFIG_WINDOW_BORDER_WIDTH,
-            (const uint32_t []){ 1 });
+            (uint32_t []){ 1 });
 
     if (tag->wfocused == NULL) {
         logger(INFO, "add_win_to_tag: this is the first window");
